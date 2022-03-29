@@ -1,0 +1,11 @@
+{
+  "name": "foradex-backend",
+  "version": "1.0.0",
+  "description": "Node.js/Express backend server for Foradex application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "William Dunn",
+  "license": "ISC"
+}
