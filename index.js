@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+const cors = require("cors");
 
 let items = [
   {
@@ -20,6 +21,7 @@ let items = [
   },
 ];
 
+app.use(cors());
 app.use(morgan("tiny"));
 
 app.get("/", (req, res) => {
@@ -51,7 +53,7 @@ const unknownEndpoint = (request, response) => {
 // only called if no route handles the request
 app.use(unknownEndpoint)
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log("Server running at http://localhost:" + PORT + "/");
 });
