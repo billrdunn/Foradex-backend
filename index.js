@@ -31,10 +31,6 @@ app.use(cors());
 app.use(morgan("tiny"));
 app.use(express.static('build'));
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
 app.get("/api/items", (req, res) => {
   // Send as a json fomatted string
   res.json(items);
