@@ -19,10 +19,17 @@ let items = [
     common: ["Destroying angel"],
     id: 2,
   },
+  {
+    latin: "Auricularia auricula-judae",
+    common: ["Jelly Ears", "Wood Ears"],
+    id: 3,
+  },
+
 ];
 
 app.use(cors());
 app.use(morgan("tiny"));
+app.use(express.static('build'));
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
