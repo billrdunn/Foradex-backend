@@ -29,6 +29,10 @@ let items = [
 
 app.use(cors());
 app.use(morgan("tiny"));
+
+// Check if the build dir contains a
+// file corresponding to the request's address
+// and if so, return it.
 app.use(express.static('build'));
 
 app.get("/api/items", (req, res) => {
