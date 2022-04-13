@@ -14,8 +14,15 @@ mongoose
   });
 
 const itemSchema = new mongoose.Schema({
-  latin: String,
-  common: [String],
+    latin: {
+        type: String,
+        minLength: 6,
+        required: true
+    },
+    common: {
+        type: [String],
+        required: true
+    }
 });
 
 // Format object returned by Mongoose by
