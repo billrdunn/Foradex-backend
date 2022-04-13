@@ -8,12 +8,14 @@ const Item = require("./models/item");
 const { redirect } = require("express/lib/response");
 
 app.use(cors());
-app.use(morgan("tiny"));
 
 // Check if the build dir contains a
 // file corresponding to the request's address
 // and if so, return it.
 app.use(express.static("build"));
+app.use(express.json())
+app.use(morgan("tiny"));
+// The order of middlewares matters!
 
 app.get("/api/items", (req, res) => {
   Item.find({}).then((items) => {
@@ -22,25 +24,32 @@ app.get("/api/items", (req, res) => {
   });
 });
 
-app.get("/api/items/:id", (req, res) => {
+app.get("/api/items/:id", (req, res, next) => {
   Item.findById(req.params.id)
     .then((item) => {
       item ? res.json(item) : res.status(404).end();
     })
-    .catch((error) => {
-      console.log(error);
-      // Status 400 means request should not be repeated without modifications
-      res.status(400).send({ error: "malformatted id" });
-    });
+    .catch((err) => next(err));
 });
 
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: "unknown endpoint" });
+const unknownEndpoint = (req, res) => {
+  res.status(404).send({ error: "unknown endpoint" });
 };
 
 // Use the middleware after the routes so it is
 // only called if no route handles the request
 app.use(unknownEndpoint);
+
+const errorHandler = (error, req, res, next) => {
+  console.error(error.message);
+
+  if (error.name === "CastError") {
+    // Status 400 means request should not be repeated without modifications
+    return res.status(400).send({ error: "malformatted id" });
+  }
+};
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
