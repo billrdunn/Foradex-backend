@@ -3,7 +3,7 @@ const itemsHelper = require("../utils/items_helper");
 describe("example describe block", () => {
   const dummyItemList = [
     {
-      _id: "mdn784rhldj5n99039mk4dp2",
+      _id: "625fc3035965f5afa2a08e06",
       latin: "Marasmius oreades",
       common: ["Fairy ring mushroom", "Fairy ring champignon"],
       __v: 0,
