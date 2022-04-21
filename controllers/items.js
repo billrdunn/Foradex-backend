@@ -7,19 +7,11 @@ itemRouter.get("/", async (req, res) => {
   res.json(items);
 });
 
-itemRouter.get("/:id", async (req, res, next) => {
+itemRouter.get("/:id", async (req, res) => {
   const item = await Item.findById(req.params.id);
   if (item) res.json(item);
   else res.status(404).end();
-
-  // what about catch?
-  
-  // Item.findById(req.params.id)
-  //   .then((item) => {
-  //     if (item) res.json(item);
-  //     else res.status(404).end();
-  //   })
-  //   .catch((err) => next(err));
+  // note next(exception) is called implicitly by express-async-errors
 });
 
 module.exports = itemRouter;

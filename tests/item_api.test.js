@@ -9,8 +9,10 @@ const Item = require("../models/item");
 // Before each test, clear the database
 beforeEach(async () => {
   await Item.deleteMany({});
+
   let itemObject = new Item(helper.initialItems[0]);
   await itemObject.save();
+  
   itemObject = new Item(helper.initialItems[1]);
   await itemObject.save();
 });
