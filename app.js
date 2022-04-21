@@ -6,6 +6,7 @@ require("express-async-errors");
 
 const app = express();
 const itemsRouter = require("./controllers/items");
+const usersRouter = require("./controllers/users");
 const middleware = require("./utils/middleware");
 const logger = require("./utils/logger");
 
@@ -28,6 +29,7 @@ app.use(middleware.requestLogger);
 // The order of middlewares matters!
 
 app.use("/api/items", itemsRouter);
+app.use("/api/users", usersRouter);
 
 // Use the middleware after the routes so it is
 // only called if no route handles the request
