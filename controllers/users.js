@@ -14,6 +14,17 @@ const getTokenFrom = (request) => {
 usersRouter.post("/", async (request, response) => {
   const { username, name, password } = request.body;
 
+  if (!username) return response.status(400).json({ error: "username missing" });
+  if (!name) return response.status(400).json({ error: "name missing" });
+  if (!password) return response.status(400).json({ error: "password missing" });
+
+  if (username.length < 5)
+    return response.status(400).json({ error: "username must be at least 5 characters long" });
+  if (name.length < 3)
+    return response.status(400).json({ error: "name must be at least 3 characters long" });
+  if (password.length < 8)
+    return response.status(400).json({ error: "password must be at least 8 characters long" });
+
   // TODO: implement other validations on user creation
   // eg. length of username & password, permitted characters
 

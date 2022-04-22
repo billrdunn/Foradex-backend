@@ -111,6 +111,105 @@ describe("When there is initially one user in db", () => {
   });
 });
 
+describe("Validating creating a user:", () => {
+  afterEach(async () => {
+    await User.deleteMany({});
+  });
+  test("if username is missing, return status 400 with appropriate error", async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const newUser = {
+      name: "Test Name",
+      password: "test-password",
+    };
+
+    const response = await api.post("/api/users").send(newUser).expect(400);
+
+    expect(response.body.error).toBe("username missing");
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toHaveLength(usersAtStart.length);
+  });
+  test("if name is missing, return status 400 with appropriate error", async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const newUser = {
+      username: "testUsername",
+      password: "test-password",
+    };
+
+    const response = await api.post("/api/users").send(newUser).expect(400);
+
+    expect(response.body.error).toBe("name missing");
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toHaveLength(usersAtStart.length);
+  });
+  test("if password is missing, return status 400 with appropriate error", async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const newUser = {
+      username: "testUsername",
+      name: "Test Name",
+    };
+
+    const response = await api.post("/api/users").send(newUser).expect(400);
+
+    expect(response.body.error).toBe("password missing");
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toHaveLength(usersAtStart.length);
+  });
+  test("if username is too short, return status 400 with appropriate error", async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const newUser = {
+      username: "blah",
+      name: "Test Name",
+      password: "test-password",
+    };
+
+    const response = await api.post("/api/users").send(newUser).expect(400);
+
+    expect(response.body.error).toBe("username must be at least 5 characters long");
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toHaveLength(usersAtStart.length);
+  });
+  test("if name is too short, return status 400 with appropriate error", async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const newUser = {
+      username: "testUsername",
+      name: "eh",
+      password: "test-password",
+    };
+
+    const response = await api.post("/api/users").send(newUser).expect(400);
+
+    expect(response.body.error).toBe("name must be at least 3 characters long");
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toHaveLength(usersAtStart.length);
+  });
+  test("if password is too short, return status 400 with appropriate error", async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const newUser = {
+      username: "testUsername",
+      name: "Test Name",
+      password: "testPas",
+    };
+
+    const response = await api.post("/api/users").send(newUser).expect(400);
+
+    expect(response.body.error).toBe("password must be at least 8 characters long");
+
+    const usersAtEnd = await helper.usersInDb();
+    expect(usersAtEnd).toHaveLength(usersAtStart.length);
+  });
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });
