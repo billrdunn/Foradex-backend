@@ -1,6 +1,15 @@
 const bcrypt = require("bcrypt");
 const usersRouter = require("express").Router();
+const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+
+const getTokenFrom = (request) => {
+  const authorization = request.get("authorization");
+  if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+    return authorization.substring(7);
+  }
+  return null;
+};
 
 usersRouter.post("/", async (request, response) => {
   const { username, name, password } = request.body;
@@ -37,7 +46,12 @@ usersRouter.get("/", async (request, response) => {
 });
 
 usersRouter.put("/:id", async (request, response) => {
-  const user = await User.findById(request.params.id);
+  const token = getTokenFrom(request);
+  const decodedToken = jwt.verify(token, process.env.SECRET);
+  if (!token || !decodedToken.id) {
+    return response.status(401).json({ error: "token missing or invalid" });
+  }
+  const user = await User.findById(decodedToken.id);
   if (!user) {
     return response.status(404).send({ error: "user not found" });
   }

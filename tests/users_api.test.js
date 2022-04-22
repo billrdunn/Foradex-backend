@@ -7,6 +7,21 @@ const User = require("../models/user");
 
 const api = supertest(app);
 
+const login = async () => {
+  const credentials = {
+    username: "billrdunn",
+    password: "testPassword123",
+  };
+
+  const loginResponse = await api
+    .post("/api/login")
+    .send(credentials)
+    .expect(200)
+    .expect("Content-Type", /application\/json/);
+
+  return loginResponse.body.token;
+};
+
 describe("When there is initially one user in db", () => {
   beforeEach(async () => {
     const item0 = helper.initialItems[0];
@@ -81,11 +96,11 @@ describe("When there is initially one user in db", () => {
       items: user.items.concat(items1),
     };
 
-    // const token = user.generateAuthToken();
+    const token = await login();
 
     await api
       .put(`/api/users/${user.id}`)
-      // .set("Authorization", "Bearer " + token)
+      .set("Authorization", `Bearer ${token}`)
       .send(newUser)
       .expect(200)
       .expect("Content-Type", /application\/json/);
