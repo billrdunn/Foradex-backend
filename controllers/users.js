@@ -29,7 +29,10 @@ usersRouter.post("/", async (request, response) => {
 });
 
 usersRouter.get("/", async (request, response) => {
-  const users = await User.find({});
+  // Populate replaces the _id with the object
+  // Can also use a second argument to limit the properties of the object
+  // Populate depends on defining a "type" in the Mongoose schema using "ref"
+  const users = await User.find({}).populate("items");
   response.json(users);
 });
 
@@ -50,8 +53,6 @@ usersRouter.put("/:id", async (request, response) => {
   const updatedUser = await user.save();
   response.json(updatedUser);
   return null;
-
-  
 });
 
 module.exports = usersRouter;

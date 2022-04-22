@@ -1,0 +1,16 @@
+PUT http://localhost:3001/api/users/626254d973c637f753ac4a2c
+content-type: application/json
+
+{
+    "username": "createdbyRESTclient",
+    "name": "Rest Client",
+    "password": "rest-client-password",
+    "items": [
+        {
+            "_id": "62565ba91deb9560fccc3ac8",
+            "latin": "Scleroderma citrinum",
+            "common": ["Common earthball"],
+            "__v": 0
+        }
+    ]
+}
