@@ -7,6 +7,8 @@ const User = require("../models/user");
 
 const api = supertest(app);
 
+jest.setTimeout(10000);
+
 const login = async () => {
   const credentials = {
     username: "billrdunn",

@@ -4,6 +4,8 @@ const helper = require("./test_helper");
 const app = require("../app");
 const Item = require("../models/item");
 
+jest.setTimeout(10000);
+
 // Before each test, clear the database
 beforeEach(async () => {
   await Item.deleteMany({});

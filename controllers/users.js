@@ -25,9 +25,6 @@ usersRouter.post("/", async (request, response) => {
   if (password.length < 8)
     return response.status(400).json({ error: "password must be at least 8 characters long" });
 
-  // TODO: implement other validations on user creation
-  // eg. length of username & password, permitted characters
-
   const existingUser = await User.findOne({ username });
   if (existingUser) {
     return response.status(400).send({ error: "username must be unique" });
@@ -57,15 +54,13 @@ usersRouter.get("/", async (request, response) => {
 });
 
 usersRouter.put("/:id", async (request, response) => {
-  const token = getTokenFrom(request);
-  const decodedToken = jwt.verify(token, process.env.SECRET);
-  if (!token || !decodedToken.id) {
-    return response.status(401).json({ error: "token missing or invalid" });
-  }
+  if (!request.token) return response.status(401).json({ error: "token missing" });
+
+  const decodedToken = jwt.verify(request.token, process.env.SECRET);
+  if (!decodedToken.id) return response.status(401).json({ error: "token  invalid" });
+
   const user = await User.findById(decodedToken.id);
-  if (!user) {
-    return response.status(404).send({ error: "user not found" });
-  }
+  if (!user) return response.status(404).send({ error: "user not found" });
 
   const { username, name, passwordHash, items } = request.body;
 

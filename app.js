@@ -27,6 +27,7 @@ app.use(cors());
 app.use(express.static("build"));
 app.use(express.json());
 app.use(middleware.requestLogger);
+app.use(middleware.tokenExtractor);
 // The order of middlewares matters!
 
 app.use("/api/items", itemsRouter);
