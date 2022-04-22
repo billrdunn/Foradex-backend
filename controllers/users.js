@@ -37,7 +37,6 @@ usersRouter.get("/", async (request, response) => {
 });
 
 usersRouter.put("/:id", async (request, response) => {
-  console.log("request :>> ", request);
   const user = await User.findById(request.params.id);
   if (!user) {
     return response.status(404).send({ error: "user not found" });
