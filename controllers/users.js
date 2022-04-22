@@ -33,4 +33,25 @@ usersRouter.get("/", async (request, response) => {
   response.json(users);
 });
 
+usersRouter.put("/:id", async (request, response) => {
+  console.log("request :>> ", request);
+  const user = await User.findById(request.params.id);
+  if (!user) {
+    return response.status(404).send({ error: "user not found" });
+  }
+
+  const { username, name, passwordHash, items } = request.body;
+
+  if (username) user.username = username;
+  if (name) user.name = name;
+  if (passwordHash) user.passwordHash = passwordHash;
+  if (items) user.items = items;
+
+  const updatedUser = await user.save();
+  response.json(updatedUser);
+  return null;
+
+  
+});
+
 module.exports = usersRouter;

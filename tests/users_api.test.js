@@ -9,12 +9,21 @@ const api = supertest(app);
 
 describe("When there is initially one user in db", () => {
   beforeEach(async () => {
-    await User.deleteMany({});
+    const item0 = helper.initialItems[0];
 
     const passwordHash = await bcrypt.hash("testPassword123", 10);
-    const user = new User({ username: "billrdunn", passwordHash });
+    const user = new User({
+      username: "billrdunn",
+      name: "Bill Dunn",
+      passwordHash,
+      items: [item0],
+    });
 
     await user.save();
+  });
+
+  afterEach(async () => {
+    await User.deleteMany({});
   });
 
   test("creation succeeds with a fresh username", async () => {
@@ -58,6 +67,32 @@ describe("When there is initially one user in db", () => {
 
     const usersAtEnd = await helper.usersInDb();
     expect(usersAtEnd).toHaveLength(usersAtStart.length);
+  });
+
+  test("an item can be added to the user", async () => {
+    const usersAtStart = await helper.usersInDb();
+    const items1 = helper.initialItems[1];
+    const user = usersAtStart[0];
+
+    const newUser = {
+      username: user.username,
+      name: user.name,
+      passwordHash: user.passwordHash,
+      items: user.items.concat(items1),
+    };
+
+    // const token = user.generateAuthToken();
+
+    await api
+      .put(`/api/users/${user.id}`)
+      // .set("Authorization", "Bearer " + token)
+      .send(newUser)
+      .expect(200)
+      .expect("Content-Type", /application\/json/);
+
+    const usersAtEnd = await helper.usersInDb();
+    const userAfter = usersAtEnd.find((u) => u.id === user.id);
+    expect(userAfter.items).toHaveLength(usersAtStart[0].items.length + 1);
   });
 });
 
