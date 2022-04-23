@@ -1,6 +1,6 @@
 PUT http://localhost:3001/api/users/626254d973c637f753ac4a2c
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNyZWF0ZWRieVJFU1RjbGllbnQiLCJpZCI6IjYyNjI2NDUwMGNkYjBjNGM1ZWEwYTI5ZSIsImlhdCI6MTY1MDYxNTU0Nn0.2TC_wsFYaORaKfqiWqQjDqsfH8Iq1eCCv688n-VrTFs
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImNyZWF0ZWRieVJFU1RjbGllbnQiLCJpZCI6IjYyNjNjNTE2ZjQyZmI1Njc1MDE3MTA2ZSIsImlhdCI6MTY1MDcwNTczM30.Qqs34fuWpkZ_BMgp3zczFNXxgTvLJHag8HSZjPaGQKk
 
 {
     "username": "createdbyRESTclient",
