@@ -111,6 +111,29 @@ describe("When there is initially one user in db", () => {
     const userAfter = usersAtEnd.find((u) => u.id === user.id);
     expect(userAfter.items).toHaveLength(usersAtStart[0].items.length + 1);
   });
+  test("adding an item to a user fails with status 401 if incorrect token given", async () => {
+    const usersAtStart = await helper.usersInDb();
+    const items1 = helper.initialItems[1];
+    const user = usersAtStart[0];
+
+    const newUser = {
+      username: user.username,
+      name: user.name,
+      passwordHash: user.passwordHash,
+      items: user.items.concat(items1),
+    };
+
+    await api
+      .put(`/api/users/${user.id}`)
+      .set("Authorization", `Bearer not-a-token`)
+      .send(newUser)
+      .expect(401)
+      .expect("Content-Type", /application\/json/);
+
+    const usersAtEnd = await helper.usersInDb();
+    const userAfter = usersAtEnd.find((u) => u.id === user.id);
+    expect(userAfter.items).toHaveLength(usersAtStart[0].items.length);
+  });
 });
 
 describe("Validating creating a user:", () => {
