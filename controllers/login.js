@@ -23,7 +23,9 @@ loginRouter.post("/", async (request, response) => {
   // The digital signature ensures that only parties who know the secret can generate a valid token.
   const token = jwt.sign(userForToken, process.env.SECRET);
 
-  response.status(200).send({ token, username: user.username, name: user.name, items: user.items });
+  response
+    .status(200)
+    .send({ token, username: user.username, name: user.name, items: user.items, id: user.id });
   return null;
 });
 
