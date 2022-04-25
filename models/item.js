@@ -10,6 +10,21 @@ const itemSchema = new mongoose.Schema({
     type: [String],
     required: true,
   },
+  description: {
+    type: Object,
+  },
+  habitat: {
+    type: String,
+  },
+  image: {
+    type: String,
+  },
+  flavour: {
+    type: String,
+  },
+  frequency: {
+    type: String,
+  },
 });
 
 // Format object returned by Mongoose by

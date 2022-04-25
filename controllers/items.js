@@ -14,4 +14,10 @@ itemRouter.get("/:id", async (req, res) => {
   // note next(exception) is called implicitly by express-async-errors
 });
 
+itemRouter.post("/", async (req, res) => {
+  const item = new Item(req.body);
+  const savedItem = await item.save();
+  res.json(savedItem);
+});
+
 module.exports = itemRouter;
