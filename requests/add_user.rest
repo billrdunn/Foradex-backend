@@ -2,7 +2,7 @@ POST http://localhost:3001/api/users
 Content-Type: application/json
 
 {
-    "username": "createdbyRESTclient",
-    "name": "Rest Client",
-    "password": "rest-client-password"
+    "username": "testUser",
+    "name": "Test User",
+    "password": "test-user-password"
 }

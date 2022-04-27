@@ -8,6 +8,7 @@ const app = express();
 const itemsRouter = require("./controllers/items");
 const usersRouter = require("./controllers/users");
 const loginRouter = require("./controllers/login");
+const testingRouter = require("./controllers/testing");
 const middleware = require("./utils/middleware");
 const logger = require("./utils/logger");
 
@@ -33,6 +34,11 @@ app.use(middleware.tokenExtractor);
 app.use("/api/items", itemsRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/login", loginRouter);
+
+// Used for Cypress to reset database
+if (process.env.NODE_ENV === "test") {
+  app.use("/api/testing", testingRouter);
+}
 
 // Use the middleware after the routes so it is
 // only called if no route handles the request
