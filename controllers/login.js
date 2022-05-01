@@ -29,4 +29,20 @@ loginRouter.post("/", async (request, response) => {
   return null;
 });
 
+loginRouter.post("/:id", async (request, response) => {
+  // ? seems odd to use a post request here as nothing is being added to db
+
+  const { user } = request.body;
+  const { username } = user;
+
+  const newUser = await User.findOne({ username });
+  response.status(200).send({
+    token: user.token,
+    username: newUser.username,
+    name: newUser.name,
+    items: newUser.items,
+    id: newUser.id,
+  });
+});
+
 module.exports = loginRouter;
