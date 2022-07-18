@@ -19,10 +19,16 @@ const itemSchema = new mongoose.Schema({
   image: {
     type: String,
   },
+  image_gs: {
+    type: String,
+  },
   flavour: {
     type: String,
   },
   frequency: {
+    type: String,
+  },
+  peak_month: {
     type: String,
   },
 });
