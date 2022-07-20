@@ -1,5 +1,22 @@
 const mongoose = require("mongoose");
 
+// const itemsSchema = new mongoose.Schema({
+//   id: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: "Item",
+//   },
+//   image: {
+//     type: String,
+//   },
+// });
+
+// const userSchema = new mongoose.Schema({
+//   username: String,
+//   name: String,
+//   passwordHash: String,
+//   items: [itemsSchema],
+// });
+
 const userSchema = new mongoose.Schema({
   username: String,
   name: String,
@@ -10,6 +27,7 @@ const userSchema = new mongoose.Schema({
       ref: "Item",
     },
   ],
+  user_images: [String],
 });
 
 userSchema.set("toJSON", {

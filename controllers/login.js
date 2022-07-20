@@ -41,6 +41,7 @@ loginRouter.post("/:id", async (request, response) => {
     username: newUser.username,
     name: newUser.name,
     items: newUser.items,
+    user_images: newUser.user_images,
     id: newUser.id,
   });
 });

@@ -52,13 +52,14 @@ usersRouter.put("/:id", userExtractor, async (request, response) => {
   if (!request.token) return response.status(401).json({ error: "token missing" });
   if (!request.user) return response.status(404).send({ error: "user not found" });
 
-  const { username, name, passwordHash, items } = request.body;
+  const { username, name, passwordHash, items, user_images } = request.body;
 
   const { user } = request;
   if (username) user.username = username;
   if (name) user.name = name;
   if (passwordHash) user.passwordHash = passwordHash;
   if (items) user.items = items;
+  if (user_images) user.user_images = user_images;
 
   const updatedUser = await request.user.save();
   response.json(updatedUser);
